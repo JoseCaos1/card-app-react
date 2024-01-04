@@ -70,7 +70,7 @@ const CardApp=()=>{
 
   return(
     <>
-      <div className="container">
+      <div className="container my-4">
         <h3>Card Ap</h3>
 
         {/* Producto */}

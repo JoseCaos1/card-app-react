@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import {calculateTotal} from '../service/productosService';
 
 export const CardView = ({items ,handlerDelete}) => {
 
@@ -6,7 +7,7 @@ export const CardView = ({items ,handlerDelete}) => {
 
   useEffect(()=>{
     setTotal(
-      items.reduce((accumulator, item)=> accumulator + item.product.price * item.quantity, 0)
+      calculateTotal(items)
     );
   }, [items])
 
