@@ -3,10 +3,9 @@ import {getProducts} from '../service/productosService';
 import {ProductCardView} from './ProductCardView';
 
 
-export const CatalogView = () => {
+export const CatalogView = ({handler}) => {
 
   const [products, setProducts]= useState([]);
-
 
   useEffect(()=>{
      setProducts(getProducts());
@@ -20,6 +19,7 @@ export const CatalogView = () => {
           products.map((prod) =>(
             <div className="col-4 my-4" key={prod.id}>
               <ProductCardView
+                handler={handler}
                 id={prod.id}
                 name={prod.name}
                 description={prod.description}

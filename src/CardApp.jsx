@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from 'react';
 import {CardView} from './components/CardView';
 import {CatalogView} from './components/CatalogView';
+import {products} from './data/productos';
 import { getProducts } from './service/productosService';
 
 const initialCardItems =[
@@ -20,13 +21,24 @@ const CardApp=()=>{
 
   const [ cardItems, setCardItems ] = useState(initialCardItems)
 
+  const handlerAddProductCart = (product) =>{
+    setCardItems([
+      ...cardItems,
+      {
+        product,
+        quantity: 1,
+        total: product.price * 1
+      }
+    ]);
+  }
+
   return(
     <>
       <div className="container">
         <h3>Card Ap</h3>
 
         {/* Producto */}
-        <CatalogView/>
+        <CatalogView handler={ handlerAddProductCart } />
 
         {/* Tabla*/}
         <CardView items={cardItems} />
