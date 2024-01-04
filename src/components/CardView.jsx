@@ -1,6 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const CardView = ({items ,handlerDelete}) => {
+
+  const [total, setTotal] =useState(0)
+
+  useEffect(()=>{
+    setTotal(
+      items.reduce((accumulator, item)=> accumulator + item.product.price * item.quantity, 0)
+    );
+  }, [items])
 
   const onDeleteProduct=(id)=>{
     //console.log('Eliminado Producto');
@@ -43,8 +51,8 @@ export const CardView = ({items ,handlerDelete}) => {
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan="3" className='text-end fw-bold'>Total</td>
-              <td colSpan="2" className='text-start fw-bold'>$12302</td>
+              <td colSpan="3" className='text-end fw-bold'>total</td>
+              <td colSpan="2" className='text-start fw-bold'>{total}</td>
             </tr>
           </tfoot>
         </table>
