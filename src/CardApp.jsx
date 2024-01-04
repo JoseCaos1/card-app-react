@@ -1,7 +1,8 @@
-import React,{useEffect, useState} from 'react';
+import React,{useEffect, useReducer, useState} from 'react';
 import {CardView} from './components/CardView';
 import {CatalogView} from './components/CatalogView';
 import {products} from './data/productos';
+import {itemsReducer} from './reduce/itemsReducer';
 import { getProducts } from './service/productosService';
 
 //SOLO PARA GUIARNOS DE LA ESTRUCTURA INICIAL, LUEGO AL FINAL SE AGREGA
@@ -21,41 +22,31 @@ import { getProducts } from './service/productosService';
 //si contiene algo de la session o sino un arreglo vacio
 const initialCardItems =JSON.parse(sessionStorage.getItem('cart')) || [];
 
+{/*TODO INICIA MI CARDAPP*/}
 const CardApp=()=>{
 
-  const [ cardItems, setCardItems ] = useState(initialCardItems)
+  const [cardItems, dispatch] =useReducer(itemsReducer, initialCardItems);
 
   const handlerAddProductCart = (product) =>{
 
     //Para ver si ya existe un id igual en el arreglo
     const hasItem = cardItems.find((i)=>i.product.id ===product.id);
-    //console.log(hasItem);
-    if(hasItem){
-      //1ER FORMA
-      //{/*Filter lo q hace es lo elimina y lo vuelve a crear por eso es q se sea al final*/}
-      //setCardItems([
-        //...cardItems.filter( (i)=> i.product.id !== product.id ),
-        //{
-          //product,
-          //quantity: hasItem.quantity +1,
-        //}
-      //])
 
-      //2DA FORMA
-      //{/* lo q hace map es lo vuelve a mapear y siempre se debe de volver un return */}
-      setCardItems(
-        cardItems.map( (i)=>{
-          if( i.product.id === product.id){
-            i.quantity = i.quantity+1;
-          }
-          return i;
-        } ),
+    if(hasItem)
+      dispatch(
         {
-          product,
-          quantity: hasItem.quantity +1,
+          type: 'UpdateQuantityProductCart',
+          payload :product,
         }
       )
-    }else{
+    else{
+
+      dispatch(
+        {
+          type: 'AddProductCart',
+          payload : product
+        }
+      )
 
       setCardItems([
         ...cardItems,
@@ -68,9 +59,12 @@ const CardApp=()=>{
   }
 
   const handlerDeleteProductCard = (id) =>{
-    setCardItems([
-      ...cardItems.filter((i) => i.product.id !== id)
-    ])
+    dispatch(
+      {
+        type: 'DeleteProductCart',
+        payload: id,
+      }
+    )
   }
 
   return(
