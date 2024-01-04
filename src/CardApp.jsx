@@ -1,8 +1,9 @@
 import React,{useEffect, useReducer, useState} from 'react';
+import { AddProductCart, DeleteProductCart, UpdateQuantityProductCart } from './reducer/itemsActions'
 import {CardView} from './components/CardView';
 import {CatalogView} from './components/CatalogView';
 import {products} from './data/productos';
-import {itemsReducer} from './reduce/itemsReducer';
+import {itemsReducer} from './reducer/itemsReducer';
 import { getProducts } from './service/productosService';
 
 //SOLO PARA GUIARNOS DE LA ESTRUCTURA INICIAL, LUEGO AL FINAL SE AGREGA
@@ -27,41 +28,35 @@ const CardApp=()=>{
 
   const [cardItems, dispatch] =useReducer(itemsReducer, initialCardItems);
 
+  useEffect(()=>{
+    sessionStorage.setItem("cart", JSON.stringify(cardItems));
+  }, [cardItems])
+
+
   const handlerAddProductCart = (product) =>{
 
     //Para ver si ya existe un id igual en el arreglo
     const hasItem = cardItems.find((i)=>i.product.id ===product.id);
 
-    if(hasItem)
-      dispatch(
-        {
-          type: 'UpdateQuantityProductCart',
+    if(hasItem){
+      dispatch({
+          type: UpdateQuantityProductCart,
           payload :product,
-        }
-      )
+        })
+    }
     else{
 
-      dispatch(
-        {
-          type: 'AddProductCart',
+      dispatch({
+          type: AddProductCart,
           payload : product
-        }
-      )
-
-      setCardItems([
-        ...cardItems,
-        {
-          product,
-          quantity: 1,
-        }
-      ]);
+        })
     }
   }
 
   const handlerDeleteProductCard = (id) =>{
     dispatch(
       {
-        type: 'DeleteProductCart',
+        type: DeleteProductCart,
         payload: id,
       }
     )
