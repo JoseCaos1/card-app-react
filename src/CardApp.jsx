@@ -60,8 +60,12 @@ const CardApp=()=>{
         }
       ]);
     }
+  }
 
-
+  const handlerDeleteProductCard = (id) =>{
+    setCardItems([
+      ...cardItems.filter((i) => i.product.id !== id)
+    ])
   }
 
   return(
@@ -70,10 +74,18 @@ const CardApp=()=>{
         <h3>Card Ap</h3>
 
         {/* Producto */}
-        <CatalogView handler={ handlerAddProductCart } />
+        <CatalogView handler={ handlerAddProductCart }  />
 
         {/* Tabla*/}
-        <CardView items={cardItems} />
+        {
+          //Si es distinto q null y el largo es mayor q 0
+          cardItems?.length <= 0 ||
+            (
+            <CardView
+              items={cardItems}
+              handlerDelete={handlerDeleteProductCard} />
+            )
+        }
       </div>
     </>
 

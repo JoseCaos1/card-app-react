@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 
-export const CardView = ({items}) => {
+export const CardView = ({items ,handlerDelete}) => {
+
+  const onDeleteProduct=(id)=>{
+    //console.log('Eliminado Producto');
+    handlerDelete(id);
+  }
 
   return (
     <>
@@ -25,7 +30,13 @@ export const CardView = ({items}) => {
                   <td>{item.product.price}</td>
                   <td>{item.quantity}</td>
                   <td>{item.quantity * item.product.price}</td>
-                  <td>Eliminar</td>
+                  <td>
+                    <button
+                      className='btn btn-danger'
+                      onClick={()=>onDeleteProduct(item.product.id)}>
+                      Eliminar
+                    </button>
+                  </td>
                 </tr>
               ) )
             }
