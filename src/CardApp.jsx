@@ -4,7 +4,9 @@ import {CatalogView} from './components/CatalogView';
 import {products} from './data/productos';
 import { getProducts } from './service/productosService';
 
-const initialCardItems =[
+//SOLO PARA GUIARNOS DE LA ESTRUCTURA INICIAL, LUEGO AL FINAL SE AGREGA
+//EL SESSION STORA
+//const initialCardItems =[
 //  {
 //    product:{
 //      id: 1,
@@ -14,7 +16,10 @@ const initialCardItems =[
 //    },
 //    quantity: 0,
 //  }
-]
+//]
+
+//si contiene algo de la session o sino un arreglo vacio
+const initialCardItems =JSON.parse(sessionStorage.getItem('cart')) || [];
 
 const CardApp=()=>{
 
