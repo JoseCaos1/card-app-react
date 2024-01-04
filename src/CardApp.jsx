@@ -1,6 +1,7 @@
 import {Navigate, Route, Routes} from 'react-router-dom';
 import {CardView} from './components/CardView';
 import {CatalogView} from './components/CatalogView';
+import {Navbar} from './components/Navbar';
 import {useItemCart} from './hooks/useItemsCart';
 
 const CardApp=()=>{
@@ -9,6 +10,7 @@ const CardApp=()=>{
 
   return(
     <>
+      <Navbar/>
       <div className="container my-4">
         <h3>Card Ap</h3>
         <Routes>
